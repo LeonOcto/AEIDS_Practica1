@@ -1,9 +1,16 @@
 require('dotenv').config({ path: 'connection.env' });
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, '..')));//regresar a la carpeta padre para servir index.html
+
+app.get('/', (req, res) => { //enviar a index.html
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
 
 // 1. IMPORT & MOUNT ROUTE
 app.use('/api/alumnos', require('./routes/alumnos')); 
@@ -18,15 +25,10 @@ const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {
     console.log('MongoDB Connected');
+
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}\nAccess the API at: http://localhost:${PORT}`));
     
-    /*// DEBUG: Print all collection names in the current DB
-    const collections = await mongoose.connection.db.listCollections().toArray();
-    console.log('Available collections in DB:', collections.map(c => c.name));
-
-    // more debug lol
-    const rawDocs = await mongoose.connection.db.collection('Alumno').find({}).toArray();
-    console.log('RAW DOCUMENTS IN ALUMNO:', rawDocs);*/
-
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch(err => console.error('Connection Error:', err));
+
+

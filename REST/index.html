@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Alumnos</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f7f6; color: #333; }
+    h1, h2 { color: #0056b3; }
+    .container { display: flex; gap: 20px; flex-wrap: wrap; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex: 1; min-width: 320px; }
+    form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    form label { display: flex; flex-direction: column; font-size: 0.9em; font-weight: bold; }
+    input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; }
+    button { grid-column: span 2; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; }
+    button:hover { background: #218838; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 0.85em; }
+    th { background-color: #0056b3; color: white; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+  </style>
+</head>
+<body>
+
+  <h1>Control de Alumnos</h1>
+
+  <div class="container">
+    <div class="card">
+      <h2>Registrar Nuevo Alumno</h2>
+      <form id="alumnoForm">
+        <label>Nombre*: <input type="text" id="nombre" required></label>
+        <label>Apellido Paterno*: <input type="text" id="apellido_pat" required></label>
+        <label>Apellido Materno*: <input type="text" id="apellido_mat" required></label>
+        <label>Correo*: <input type="email" id="correo" required></label>
+        <label>Teléfono*: <input type="text" id="telefono" required></label>
+        <label>Idioma Nativo*: <input type="text" id="idioma_nat" required></label>
+        <label>Descuento: <input type="number" id="descuento" required min="0" max="100" step="0.01" placeholder="0"></label>
+        <label>Referencia: <input type="text" id="referencia"></label>
+        <button type="submit">Agregar Alumno</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Lista de Alumnos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Idioma</th>
+            <th>Desc.</th>
+            <th>Ref.</th>
+          </tr>
+        </thead>
+        <tbody id="alumnosTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api/alumnos';
+
+    // Fetch and display alumnos
+    async function loadAlumnos() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        const tbody = document.getElementById('alumnosTable');
+        tbody.innerHTML = '';
+
+        data.forEach(a => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${a.nombre} ${a.apellido_pat} ${a.apellido_mat}</td>
+              <td>${a.correo}</td>
+              <td>${a.telefono}</td>
+              <td>${a.idioma_nat}</td>
+              <td>${a.descuento}%</td>
+              <td>${a.referencia || '-'}</td>
+            </tr>`;
+        });
+      } catch (err) {
+        console.error('Error al cargar alumnos:', err);
+      }
+    }
+
+    // Submit new alumno via POST
+    document.getElementById('alumnoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        nombre: document.getElementById('nombre').value,
+        apellido_pat: document.getElementById('apellido_pat').value,
+        apellido_mat: document.getElementById('apellido_mat').value,
+        correo: document.getElementById('correo').value,
+        telefono: document.getElementById('telefono').value,
+        idioma_nat: document.getElementById('idioma_nat').value,
+        descuento: document.getElementById('descuento').value !== '' 
+            ? Number(document.getElementById('descuento').value) 
+            : 0,
+        referencia: document.getElementById('referencia').value || null
+      };
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          document.getElementById('alumnoForm').reset();
+          loadAlumnos(); // Refresh table immediately
+        } else {
+          alert('Error al guardar el alumno');
+        }
+      } catch (err) {
+        console.error('Error POST:', err);
+      }
+    });
+
+    // Initial load
+    loadAlumnos();
+  </script>
+</body>
+</html>

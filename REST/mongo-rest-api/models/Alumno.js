@@ -20,7 +20,8 @@ const AlumnoSchema = new mongoose.Schema({
   },
   descuento: { 
     type: Number, 
-    required: true 
+    required: true,
+    default: 0
   },
   idioma_nat: { 
     type: String, 
