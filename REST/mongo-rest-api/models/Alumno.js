@@ -13,6 +13,26 @@ const AlumnoSchema = new mongoose.Schema({
   apellido_mat: { 
     type: String, 
     required: true 
+  },
+  correo: { 
+    type: String, 
+    required: true 
+  },
+  descuento: { 
+    type: Number, 
+    required: true 
+  },
+  idioma_nat: { 
+    type: String, 
+    required: true 
+  },
+  referencia: { 
+    type: String, 
+    required: false 
+  },
+  telefono: { 
+    type: String, 
+    required: true 
   }
 }, { timestamps: false });
 

@@ -24,7 +24,12 @@ router.post('/', async (req, res) => {
     const nuevoAlumno = new Alumno({
       nombre: req.body.nombre,
       apellido_pat: req.body.apellido_pat,
-      apellido_mat: req.body.apellido_mat
+      apellido_mat: req.body.apellido_mat,
+      correo: req.body.correo,
+      descuento: req.body.descuento,
+      idioma_nat: req.body.idioma_nat,
+      referencia: req.body.referencia,
+      telefono: req.body.telefono
     });
 
     const guardado = await nuevoAlumno.save();
