@@ -1,16 +1,20 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Alumno = require('../models/Alumno');
 
 // GET all Alumnos
 router.get('/', async (req, res) => {
   try {
-    const alumnos = await Alumno.find();
+    const alumnos = await mongoose.connection.db.collection('Alumno').find({}).toArray();
+    //console.log(alumnos); // Debugging line to check the output of the GET request
     res.json(alumnos);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+
 
 module.exports = router;
 

@@ -23,6 +23,10 @@ mongoose.connect(process.env.MONGO_URI)
     const collections = await mongoose.connection.db.listCollections().toArray();
     console.log('Available collections in DB:', collections.map(c => c.name));
 
+    // more debug lol
+    const rawDocs = await mongoose.connection.db.collection('Alumno').find({}).toArray();
+    console.log('RAW DOCUMENTS IN ALUMNO:', rawDocs);
+
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch(err => console.error('Connection Error:', err));
