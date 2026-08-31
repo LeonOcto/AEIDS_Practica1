@@ -12,7 +12,7 @@ const AlumnoSchema = new mongoose.Schema({
   },
   apellido_mat: { 
     type: String, 
-    required: true 
+    required: false 
   },
   correo: { 
     type: String, 
