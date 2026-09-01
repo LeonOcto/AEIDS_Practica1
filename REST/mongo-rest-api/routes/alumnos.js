@@ -21,21 +21,54 @@ module.exports = router;
 // POST create a new Alumno
 router.post('/', async (req, res) => {
   try {
+    const { nombre, apellido_pat, apellido_mat, correo, telefono, idioma_nat, descuento, referencia } = req.body;
+
+    // CHECK IF REFERENCIA IS PROVIDED & VALIDATE EXISTENCE
+    if (referencia && referencia.trim() !== '') {
+      // Searches by exact full name (e.g. "Juan Pérez Gómez") or by MongoDB _id
+      const referenciaTrimmed = referencia.trim();
+      
+      let refExists = false;
+
+      // Check if reference is a valid ObjectId, otherwise search by name
+      if (referenciaTrimmed.match(/^[0-9a-fA-F]{24}$/)) {
+        refExists = await Alumno.findById(referenciaTrimmed);
+      } else {
+        // Search by concatenated full name or individual name fields
+        refExists = await Alumno.findOne({
+          $expr: {
+            $eq: [
+              { $concat: ["$nombre", " ", "$apellido_pat", " ", "$apellido_mat"] },
+              referenciaTrimmed
+            ]
+          }
+        });
+      }
+
+      if (!refExists) {
+        return res.status(400).json({ 
+          error: `La referencia "${referencia}" no existe en la base de datos de Alumnos.` 
+        });
+      }
+    }
+
+    // CREATE NEW ALUMNO IF VALIDATION PASSES
     const nuevoAlumno = new Alumno({
-      nombre: req.body.nombre,
-      apellido_pat: req.body.apellido_pat,
-      apellido_mat: req.body.apellido_mat,
-      correo: req.body.correo,
-      descuento: req.body.descuento,
-      idioma_nat: req.body.idioma_nat,
-      referencia: req.body.referencia,
-      telefono: req.body.telefono
+      nombre,
+      apellido_pat,
+      apellido_mat,
+      correo,
+      telefono,
+      idioma_nat,
+      descuento: descuento || 0,
+      referencia: referencia ? referencia.trim() : null
     });
 
     const guardado = await nuevoAlumno.save();
     res.status(201).json(guardado);
+
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
