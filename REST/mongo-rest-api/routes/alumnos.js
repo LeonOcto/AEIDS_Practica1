@@ -1,24 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const Alumno = require('../models/Alumno');
 
-// GET all Alumnos
+// GET - Obtener todos los alumnos
 router.get('/', async (req, res) => {
   try {
-    const alumnos = await mongoose.connection.db.collection('Alumno').find({}).toArray();
-    //console.log(alumnos); // Debugging line to check the output of the GET request
+    const alumnos = await Alumno.find({});
     res.json(alumnos);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-
-
-module.exports = router;
-
-// POST create a new Alumno
+// POST - Crear un nuevo alumno
 router.post('/', async (req, res) => {
   try {
     const { nombre, apellido_pat, apellido_mat, correo, telefono, idioma_nat, descuento, referencia } = req.body;
@@ -72,4 +66,5 @@ router.post('/', async (req, res) => {
   }
 });
 
+// ⚠️ EL EXPORT VA HASTA EL FINAL (después de TODAS las rutas)
 module.exports = router;

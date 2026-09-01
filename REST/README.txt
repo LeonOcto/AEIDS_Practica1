@@ -1,12 +1,51 @@
-Antes de iniciar va a necesitar node.js y git instalado
-https://nodejs.org/es
-https://git-scm.com/
+# Academia de Idiomas - API REST + GraphQL
 
---Haga esto si no lo ha hecho anteriormente para Graph
-Una vez que esten descargados, abra una carpeta vacía y en una terminal de git o command prompt escriba "-git clone https://github.com/LeonOcto/AEIDS_Practica1.git"
+Sistema de gestión para una academia de idiomas que expone servicios REST para la creación de alumnos y GraphQL para consultas avanzadas con filtros. Desarrollado como parte de la Práctica 1 de la materia de Ingeniería de Software.
 
+## Requisitos Previos
 
-luego en una terminal de "JavaScript Debug Terminal" escriba "cd AEIDS_Practica1/REST/mongo-rest-api"
-después escriba "node server.js"
+Antes de iniciar, necesitas tener instalado:
 
-finalmente haga ctrl+click al link http://localhost:5000 para poder agregar estudiantes
+- [Node.js](https://nodejs.org/es) (versión 18 o superior)
+- [Git](https://git-scm.com/)
+
+## Instalación y Ejecución Local
+
+Sigue estos pasos para poner el proyecto en funcionamiento en tu computadora.
+
+### 1. Clonar el repositorio
+
+Abre una terminal (Git Bash, Command Prompt o PowerShell) y ejecuta:
+
+git clone https://github.com/LeonOcto/AEIDS_Practica1.git
+
+### 2. Acceder a la carpeta del proyecto
+
+cd AEIDS_Practica1/REST/mongo-rest-api
+
+### 3. Instalar dependencias
+
+npm install
+
+si no se instala ejecutar desde el comand prompt
+
+### 4. Configurar la conexión a MongoDB
+
+El proyecto necesita una base de datos MongoDB (puedes usar MongoDB Atlas gratis).
+PORT=5000
+MONGO_URI=mongodb://Public:gLkvc4VwBZy4ZQ3Q@ac-sqpemct-shard-00-00.jwh9aht.mongodb.net:27017,ac-sqpemct-shard-00-01.jwh9aht.mongodb.net:27017,ac-sqpemct-shard-00-02.jwh9aht.mongodb.net:27017/Practica-1-S7?ssl=true&replicaSet=atlas-lfmrdg-shard-0&authSource=admin&appName=Cluster0
+(Ya esta puesto en el archivo llamado connection.env)
+
+### 5. Iniciar el servidor
+
+Desde la terminal
+node server.js
+
+### 6. Probar la aplicación
+Abre tu navegador y visita:
+
+Frontend de prueba: http://localhost:5000 – Desde aquí puedes agregar alumnos usando el formulario y ver la lista actualizada.
+
+GraphQL Playground: http://localhost:5000/graphql – Interfaz interactiva para probar consultas GraphQL.
+
+REST API: http://localhost:5000/api/alumnos – Puedes hacer peticiones GET y POST desde Postman o curl.
