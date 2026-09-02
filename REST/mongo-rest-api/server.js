@@ -37,6 +37,7 @@ async function startServer() {
     typeDefs,
     resolvers,
     introspection: true, // Necesario para que el Playground funcione
+    playground: true, // Habilitar el Playground de GraphQL
   });
 
   // 3. Arrancar Apollo
