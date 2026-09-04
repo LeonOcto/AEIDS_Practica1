@@ -32,9 +32,7 @@ si no se instala ejecutar desde el comand prompt
 ### 4. Configurar la conexión a MongoDB
 
 El proyecto necesita una base de datos MongoDB (puedes usar MongoDB Atlas gratis).
-PORT=5000
-MONGO_URI=mongodb://Public:gLkvc4VwBZy4ZQ3Q@ac-sqpemct-shard-00-00.jwh9aht.mongodb.net:27017,ac-sqpemct-shard-00-01.jwh9aht.mongodb.net:27017,ac-sqpemct-shard-00-02.jwh9aht.mongodb.net:27017/Practica-1-S7?ssl=true&replicaSet=atlas-lfmrdg-shard-0&authSource=admin&appName=Cluster0
-(Ya esta puesto en el archivo llamado connection.env)
+Ya hay una conexión predeterminada en connection.env
 
 ### 5. Iniciar el servidor
 
