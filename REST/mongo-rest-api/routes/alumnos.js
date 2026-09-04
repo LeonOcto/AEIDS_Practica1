@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Alumno = require('../models/Alumno');
 
+function isPhoneNumber(str){
+  return /^\+?\d+$/.test(str);
+}
+
 // GET - Obtener todos los alumnos
 router.get('/', async (req, res) => {
   try {
@@ -37,6 +41,11 @@ router.post('/', async (req, res) => {
           error: `La referencia "${referencia}" no existe en la base de datos de Alumnos.` 
         });
       }
+    }
+    if (!isPhoneNumber(telefono)) {
+      return res.status(400).json({ 
+        error: `El número de teléfono "${telefono}" no es válido. Debe contener solo dígitos y opcionalmente un signo '+' al inicio.` 
+      });
     }
 
     // CREATE NEW ALUMNO IF VALIDATION PASSES
