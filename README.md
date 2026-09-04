@@ -1,66 +1,51 @@
-Requerimientos del sistema: Centro de idiomas
+# Academia de Idiomas - API REST + GraphQL
 
+Sistema de gestión para una academia de idiomas que expone servicios REST para la creación de alumnos y GraphQL para consultas avanzadas con filtros. Desarrollado como parte de la Práctica 1 de la materia de Ingeniería de Software.
 
+## Requisitos Previos
 
-* El alumno debe de iniciar sesión 
-* Si se registra debe de pedir 
+Antes de iniciar, necesitas tener instalado:
 
-  * Datos generales
-  * Datos de contacto
-  * Idioma nativo
-  * ¿Quién lo recomendó?
-  * ¿Hay un familiar inscrito?
+- [Node.js](https://nodejs.org/es) (versión 18 o superior)
+- [Git](https://git-scm.com/)
 
-    * Si: preguntar su matricula para hacer un 5% de descuento	
-* El alumno debe de sesionar su clase indicando el día y la hora
+## Instalación y Ejecución Local
 
-  * Si tarda 5 min el sitio reinicia el proceso de asignación de clases
-* El área administrativa configura el pago
+Sigue estos pasos para poner el proyecto en funcionamiento en tu computadora.
 
+### 1. Clonar el repositorio
 
+Abre una terminal (Git Bash, Command Prompt o PowerShell) y ejecuta:
 
-Nivel Precio
+git clone https://github.com/LeonOcto/AEIDS_Practica1.git
 
-1 $200.00
+### 2. Acceder a la carpeta del proyecto
 
-2 $220.00
+cd AEIDS_Practica1/REST/mongo-rest-api
 
-3 $250.00
+### 3. Instalar dependencias
 
-4+ $260.00
+npm install
 
+si no se instala ejecutar desde el comand prompt
 
+### 4. Configurar la conexión a MongoDB
 
-* El sistema debe estar preparado para dar de alta cualquier idioma
-* El alumno puede tomar más de un idioma
-* El sistema debe de mostrarle al alumno los horarios disponibles si es que no encuentra clases en el día que eligió
-* El profesor es asignado de manera automática por el sistema
-* El alumno debe de tomar un examen para asignarle un nivel el cual pueden ver en su perfil
-* Las clases deben de durar 50 minutos
-* El alumno debe de hacer un examen en linea cada 5 sesiones
-* EL área administrativa da de alta a los maestros con los siguientes datos
+El proyecto necesita una base de datos MongoDB (puedes usar MongoDB Atlas gratis).
+PORT=5000
+MONGO_URI=mongodb://Public:gLkvc4VwBZy4ZQ3Q@ac-sqpemct-shard-00-00.jwh9aht.mongodb.net:27017,ac-sqpemct-shard-00-01.jwh9aht.mongodb.net:27017,ac-sqpemct-shard-00-02.jwh9aht.mongodb.net:27017/Practica-1-S7?ssl=true&replicaSet=atlas-lfmrdg-shard-0&authSource=admin&appName=Cluster0
+(Ya esta puesto en el archivo llamado connection.env)
 
-  * Datos generales
-  * Datos de contacto
-  * CLABE
-* Los maestros deben de tener al menos 2 años de experiencia dando clases
-* Los maestros deben de firmar un contrato de confidencialidad
-* El portal debe de funcionar 24/7
-* Los profesores deben de recibir sus pagos mensualmente de acuerdo a las clases impartidas (cobran por clase)
-* El portal cuenta con un chat de ayuda y soporte que funciona en horarios hábiles
-* Los alumnos y profesores deben de pasar su asistencia en el portal
-* El profesor puede cobrar si toda la clase no va
-* Los alumnos pueden cancelar hasta 5 sesiones por módulos y se les cobrará hasta 5% más
-* La academia solo esta disponible en México
-* Se necesitan acceder a las siguientes funciones
+### 5. Iniciar el servidor
 
-  * Disponibilidad de salones.
-  * Gestión de materias.
-  * Gestión de profesores.
-  * Asistencia del personal administrativo
-  * Pago del personal administrativo, todo el personal trabaja 8 horas por lo que hay 2 turnos de 9 a 18 y de 13 a 22. EL pago se basa al nivel administrativo que se debe de configurar, todo personal administrativo tiene su nivel el cual es asignado por el director de la academia.
-* Los campos del portal deben de contar con ayuda en linea
-* Hay un presupuesto de 2 millones de USD, para entregarlo en 10 meses con entregas parciales de los diferentes módulos que se propongan. Por lo que se tiene que justificar el tiempo y costo.
-* Se tiene que justificar el número de recursos y costo de acuerdo con RUP
-* El portal debe transferir mensualmente al corporativo de España el 10% de las ganancias del mes
+Desde la terminal
+node server.js
 
+### 6. Probar la aplicación
+Abre tu navegador y visita:
+
+Frontend de prueba: http://localhost:5000 – Desde aquí puedes agregar alumnos usando el formulario y ver la lista actualizada.
+
+GraphQL Playground: http://localhost:5000/graphql – Interfaz interactiva para probar consultas GraphQL.
+
+REST API: http://localhost:5000/api/alumnos – Puedes hacer peticiones GET y POST desde Postman o curl.
