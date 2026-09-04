@@ -15,11 +15,11 @@ router.get('/', async (req, res) => {
 // POST - Crear un nuevo alumno
 router.post('/', async (req, res) => {
   try {
-    const { nombre, apellido_pat, apellido_mat, correo, telefono, idioma_nat, descuento, referencia } = req.body;
+    const { nombre, apellido_pat, apellido_mat, correo, telefono, idioma_nat, descuento, referencia, matricula } = req.body;
 
     // CHECK IF REFERENCIA IS PROVIDED & VALIDATE EXISTENCE
     if (referencia && referencia.trim() !== '') {
-      // Searches by exact full name (e.g. "Juan Pérez Gómez") or by MongoDB _id
+      
       const referenciaTrimmed = referencia.trim();
       
       let refExists = false;
@@ -28,15 +28,8 @@ router.post('/', async (req, res) => {
       if (referenciaTrimmed.match(/^[0-9a-fA-F]{24}$/)) {
         refExists = await Alumno.findById(referenciaTrimmed);
       } else {
-        // Search by concatenated full name or individual name fields
-        refExists = await Alumno.findOne({
-          $expr: {
-            $eq: [
-              { $concat: ["$nombre", " ", "$apellido_pat", " ", "$apellido_mat"] },
-              referenciaTrimmed
-            ]
-          }
-        });
+        // Search by referencia
+        refExists = await Alumno.findOne({matricula:referenciaTrimmed});
       }
 
       if (!refExists) {
@@ -55,8 +48,9 @@ router.post('/', async (req, res) => {
       telefono,
       idioma_nat,
       descuento: descuento || 0,
-      referencia: referencia ? referencia.trim() : null
-    });
+      referencia: referencia ? referencia.trim() : null,
+      matricula
+      });
 
     const guardado = await nuevoAlumno.save();
     res.status(201).json(guardado);

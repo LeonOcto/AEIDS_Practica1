@@ -34,6 +34,10 @@ const AlumnoSchema = new mongoose.Schema({
   telefono: { 
     type: String, 
     required: true 
+  },
+  matricula: { 
+    type: String, 
+    required: true 
   }
 }, { timestamps: false });
 
